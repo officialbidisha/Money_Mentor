@@ -4,14 +4,15 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.example.demo.model.itemlist;
 import com.example.demo.repository.itemlistRepository;
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/itemlist")
 public class itemlistController {
@@ -30,16 +31,17 @@ public class itemlistController {
 	
 	@RequestMapping(value = "/create", method = {RequestMethod.POST})
 	public itemlist createItem(@Validated @RequestBody itemlist item) {
-	  repository.insert(item);
+		System.out.println("Item is "+ item.itemname);
+	  repository.save(item);
 	  return item;
 	}
 
-	@RequestMapping(value="/delete/{id}",method = {RequestMethod.GET}) 
+	@RequestMapping(value="/delete/{id}",method = {RequestMethod.DELETE}) 
 	public void deleteitemlist(@PathVariable("id") ObjectId id)
 	{ repository.deleteById(id); }
 	
-	@RequestMapping(value = "/update/{id}", method = {RequestMethod.POST})
-	public void modifyItemById(@Validated @RequestBody itemlist item) {
-	  repository.save(item);
-	}
+//	@RequestMapping(value = "/update/{id}", method = {RequestMethod.POST})
+//	public void modifyItemById(@Validated @RequestBody itemlist item) {
+//	  repository.save(item);
+//	}
 }
